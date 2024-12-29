@@ -1,41 +1,44 @@
-
 pipeline {
     agent any
-
-    // environment {
-    //     SLACK_CHANNEL = '#devops'  // Replace with the channel you want to post to 
-    //     registryCredentials = 'ecr:ap-south-1:awscred'
-    //     imageName = "533267404447.dkr.ecr.ap-south-1.amazonaws.com/vprofileappimg"
-    //     vprofileRegistry = "https://533267404447.dkr.ecr.ap-south-1.amazonaws.com"
-    // }
 
     stages {
         stage('Hello') {
             steps {
-                echo 'HSello World'
+                echo 'Hello World'
             }
         }
 
         stage('Clone') {
             steps {
-                git branch: 'main1', credentialsId: 'a', url: 'git@github.com:Ajay1672/new-Project-01-JAN-2024.git'
+                git branch: 'main', // Ensure 'main' is the correct branch name
+                    credentialsId: 'your-git-credentials-id', // Replace with your actual credentials ID
+                    url: 'git@github.com:Ajay1672/new-Project-01-JAN-2024.git'
             }
         }
 
         stage('Clean') {
             steps {
-                bat 'mvn clean'
+                bat 'mvn clean' // Use 'sh' instead of 'bat' if running on Linux
             }
         }
 
         stage('Package') {
             steps {
-                bat 'mvn package'
+                bat 'mvn package' // Use 'sh' if running on Linux
             }
         }
-        
-    }
 
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('sonumonu') { // Ensure 'sonumonu' is configured in Jenkins
+                    bat """
+                        bat 'mvn sonar:sonar -Dsonar.projectKey=Docker-Jenkins-Java-Application \
+                          -Dsonar.host.url=http://localhost:9000'
+                    """
+                }
+            }
+        }
+    }
 }
 
         // stage('Test Nexus URL') {
@@ -44,11 +47,11 @@ pipeline {
         //     }
         // }
 
-        // Uncomment and configure the following if you want to perform SonarQube analysis
+        Uncomment and configure the following if you want to perform SonarQube analysis
         // stage('SonarQube Analysis') {
         //     steps {
         //         withSonarQubeEnv('sonumonu') {
-        //             bat 'cd WebApp && mvn sonar:sonar -Dsonar.projectKey=Docker-Jenkins-Java-Application \
+        //             bat 'mvn sonar:sonar -Dsonar.projectKey=Docker-Jenkins-Java-Application \
         //                 -Dsonar.host.url=http://localhost:9000'
         //         }
         //     }
