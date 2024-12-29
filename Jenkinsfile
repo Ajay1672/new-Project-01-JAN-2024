@@ -47,7 +47,7 @@ pipeline {
         //     }
         // }
 
-        Uncomment and configure the following if you want to perform SonarQube analysis
+        // Uncomment and configure the following if you want to perform SonarQube analysis
         // stage('SonarQube Analysis') {
         //     steps {
         //         withSonarQubeEnv('sonumonu') {
