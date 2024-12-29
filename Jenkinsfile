@@ -18,7 +18,7 @@ pipeline {
 
         stage('Clone') {
             steps {
-                git branch: 'master', credentialsId: 'a', url: 'git@github.com:Ajay1672/new-Project-01-JAN-2024.git'
+                git branch: 'main1', credentialsId: 'a', url: 'git@github.com:Ajay1672/new-Project-01-JAN-2024.git'
             }
         }
 
